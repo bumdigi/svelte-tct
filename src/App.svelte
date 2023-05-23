@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import axios from 'axios'
 
 	const USER_NO = 'ME00001'
@@ -12,14 +13,24 @@
         })
 	}
 
-	getUserName();
+	const getUseData = () => {
+		axios.get(`http://localhost:8080/api/v1/user/${USER_NO}/usage/summary?ptype=1`)
+        .then(response => {
+			console.log(response.data.usage_count);
+        })
+	}
+
+	onMount(() => {
+		getUserName();
+		getUseData();
+	});
 </script>
 
 <div>
 	<!-- Title -->
 	  <div class="main-title">
 		<h1>서비스 이용내역</h1>
-		<div id="userName"></div>
+		<div id="userName">{userName}</div>
 	  </div>
 	<hr />
 	<!-- List summary  -->
